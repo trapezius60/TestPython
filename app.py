@@ -41,9 +41,7 @@ from linebot.models import (
 
 app = Flask(__name__)
 
-@app.route('/')
-def index():
-return "Hello to chatbot web service"
+
 
 # get channel_secret and channel_access_token from your environment variable
 channel_secret = '7f819199fc35d2461ceb0191d0fb304d'
@@ -71,6 +69,9 @@ def make_static_tmp_dir():
         else:
             raise
 
+@app.route('/')
+def index():
+    return "Hello Python ChatBot"
 
 @app.route("/callback", methods=['POST'])
 def callback():
