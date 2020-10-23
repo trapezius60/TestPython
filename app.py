@@ -76,13 +76,7 @@ def index():
 @app.route("/callback", methods=['POST'])
 def callback():
     #-------------------------------
-    json_line = request.get_json(force=False,cache=False)
-    json_line = json.dumps(json_line)
-    decoded = json.loads(json_line)
-    no_event = len(decoded['events'])
-    for i in range(no_event):
-        event = decoded['events'][i]
-        event_handle(event)
+
         #-----------------------
     # get X-Line-Signature header value
     signature = request.headers['X-Line-Signature']
