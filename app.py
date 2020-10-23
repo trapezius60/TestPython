@@ -71,7 +71,7 @@ def make_static_tmp_dir():
 
 @app.route('/')
 def index():
-    return "Hello Python ChatBot"
+    return render('MyTemplate.html')
 
 @app.route("/callback", methods=['POST'])
 def callback():
