@@ -69,9 +69,14 @@ def make_static_tmp_dir():
         else:
             raise
 
-@app.route('/')
-def index():
-    return "hello"
+@app.route("/")
+def index(): #โมดูลรับค่าจากไฟล์ index.html โดยการส่งค่าในรูปแบบ POST
+    return render_template('index.html')
+@app.route('/save', methods=['POST'])
+def save(): #โมดูลแสดงข้อมูล
+    x = dict(request.form.items())
+    return "รับค่าสำเร็จ %s"%(x)
+app.run(debug=True)
 
 @app.route("/callback", methods=['POST'])
 def callback():
