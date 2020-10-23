@@ -90,7 +90,56 @@ def callback():
 
     return 'OK'
 
+#--from line nearlocation
+def event_handle(event):
+    print(event)
+    try:
+        userId = event['source']['userId']
+    except:
+        print('error cannot get userId')
+        return ''
 
+    try:
+        rtoken = event['replyToken']
+    except:
+        print('error cannot get rtoken')
+        return ''
+    if 'message' in event.keys():
+        try:
+            msgType = event["message"]["type"]
+            msgId = event["message"]["id"]
+        except:
+            print('error cannot get msgID, and msgType')
+            sk_id = np.random.randint(1,17)
+            replyObj = StickerSendMessage(package_id=str(1),sticker_id=str(sk_id))
+            line_bot_api.reply_message(rtoken, replyObj)
+            return ''
+    if 'postback' in event.keys():
+        msgType = 'postback'
+
+    if msgType == "text":
+        msg = str(event["message"]["text"])
+        replyObj = handle_text(msg)
+        line_bot_api.reply_message(rtoken, replyObj)
+
+    if msgType == "postback":
+        msg = str(event["postback"]["data"])
+        replyObj = handle_postback(msg)
+        line_bot_api.reply_message(rtoken, replyObj)
+
+    if msgType == "location":
+        lat = event["message"]["latitude"]
+        lng = event["message"]["longitude"]
+        #txtresult = handle_location(lat,lng,casedata,3)
+        result = getcaseflex(lat,lng)
+        replyObj = FlexSendMessage(alt_text='Flex Message alt text', contents=result)
+        line_bot_api.reply_message(rtoken, replyObj)
+    else:
+        sk_id = np.random.randint(1,17)
+        replyObj = StickerSendMessage(package_id=str(1),sticker_id=str(sk_id))
+        line_bot_api.reply_message(rtoken, replyObj)
+    return ''
+#-------------------------------------------------------
 @handler.add(MessageEvent, message=TextMessage)
 def handle_text_message(event):
     text = event.message.text
