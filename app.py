@@ -71,7 +71,7 @@ def make_static_tmp_dir():
 
 @app.route('/')
 def index():
-    return render('MyTemplate.html')
+    return "hello"
 
 @app.route("/callback", methods=['POST'])
 def callback():
